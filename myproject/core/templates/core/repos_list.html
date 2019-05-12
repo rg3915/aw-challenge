@@ -32,10 +32,10 @@
     </div>
   </div>
 
-  <div class="page-header">
+  <div class="page-header" style="margin-top: 15px;">
     <h2>Lista de Repositórios
       <span class="pull-right">
-        <a href="{ url 'produto:produto_add' %}">
+        <a href="">
           <button type="button" class="btn btn-success">
             <span class="fa fa-plus"></span> Salvar todos
           </button>
@@ -51,8 +51,12 @@
       </thead>
       <tbody>
         <tr v-for="item in items">
+          <td>${ item.slug }</td>
           <td>${ item.name }</td>
           <td>${ item.full_name }</td>
+          <td>
+            <a :href="item.htm_url" target="_blank">${ item.htm_url }</a>
+          </td>
           <td class="text-center">${ item.stargazers_count }</td>
         </tr>
       </tbody>
@@ -73,30 +77,22 @@ var app = new Vue({
   data: {
     search: '',
     headers: [
+      {title: 'id'},
       {title: 'name'},
       {title: 'full_name'},
+      {title: 'htm_url'},
       {title: 'stargazers_count'},
     ],
     username: 'rg3915',
-    items: [
-      {
-        'name': 'components-google',
-        'full_name': 'CollabCodeTech/components-google',
-        'stargazers_count': '3'
-      },
-      {
-        'name': 'boilerplate-manager',
-        'full_name': 'agencia-tecnologia-palmas/boilerplate-manager',
-        'stargazers_count': 16
-      },
-      {
-        'name': 'coreui-django-boilerplate',
-        'full_name': 'ni8mr/coreui-django-boilerplate',
-        'stargazers_count': 12
-      },
-    ]
+    items: []
   },
   methods: {
+    getReposJson () {
+      axios.get('/repo/json/')
+      .then(result => {
+        this.items = result.data.data
+      })
+    },
     getRepos (username) {
       const url = 'https://api.github.com/users/' + username + '/starred'
       axios.get(url)
@@ -106,7 +102,7 @@ var app = new Vue({
     },
   },
   mounted () {
-    // this.getRepos()
+    this.getReposJson()
   },
   computed: {
     filteredItems () {

@@ -1,3 +1,27 @@
 from django.db import models
 
-# Create your models here.
+
+class Repo(models.Model):
+    slug = models.BigIntegerField(
+        unique=True,
+        help_text='slug is id of github api'
+    )
+    name = models.TextField()
+    full_name = models.TextField()
+    htm_url = models.URLField()
+    stargazers_count = models.PositiveIntegerField()
+
+    class Meta:
+        ordering = ('stargazers_count',)
+
+    def __str__(self):
+        return self.name
+
+    def to_dict_json(self):
+        return {
+            'slug': self.slug,
+            'name': self.name,
+            'full_name': self.full_name,
+            'htm_url': self.htm_url,
+            'stargazers_count': self.stargazers_count,
+        }

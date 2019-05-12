@@ -1,3 +1,14 @@
 from django.contrib import admin
+from .models import Repo
 
-# Register your models here.
+
+@admin.register(Repo)
+class RepoAdmin(admin.ModelAdmin):
+    list_display = (
+        'slug',
+        'name',
+        'full_name',
+        'htm_url',
+        'stargazers_count',
+    )
+    search_fields = ('name', 'full_name')
