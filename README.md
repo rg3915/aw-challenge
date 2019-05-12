@@ -32,8 +32,18 @@ cd aw-challenge
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+python contrib/env_gen.py
 ```
 
 ## Api
 
 url
+
+https://developer.github.com/v3/search/#search-repositories
+
+https://developer.github.com/v3/repos/#get
+
+
+
+https://api.github.com/users/rg3915/starred?page=3
+
