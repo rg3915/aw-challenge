@@ -8,11 +8,11 @@ class Repo(models.Model):
     )
     name = models.TextField()
     full_name = models.TextField()
-    htm_url = models.URLField()
+    html_url = models.URLField()
     stargazers_count = models.PositiveIntegerField()
 
     class Meta:
-        ordering = ('stargazers_count',)
+        ordering = ('-stargazers_count',)
 
     def __str__(self):
         return self.name
@@ -22,6 +22,6 @@ class Repo(models.Model):
             'slug': self.slug,
             'name': self.name,
             'full_name': self.full_name,
-            'htm_url': self.htm_url,
+            'html_url': self.html_url,
             'stargazers_count': self.stargazers_count,
         }

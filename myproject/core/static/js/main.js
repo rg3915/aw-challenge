@@ -1,3 +1,5 @@
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+axios.defaults.xsrfCookieName = 'csrftoken'
 var app = new Vue({
   el: '#app',
   delimiters: ['${', '}'],
@@ -7,11 +9,33 @@ var app = new Vue({
       {title: 'id'},
       {title: 'name'},
       {title: 'full_name'},
-      {title: 'htm_url'},
+      {title: 'html_url'},
       {title: 'stargazers_count'},
     ],
     username: 'rg3915',
-    items: []
+    items: [
+    // {
+    //     'slug': 1,
+    //     'name': 'components-google',
+    //     'full_name': 'CollabCodeTech/components-google',
+    //     'html_url': 'https://www.github.com/components-google',
+    //     'stargazers_count': '3'
+    //   },
+    //   {
+    //     'slug': 2,
+    //     'name': 'boilerplate-manager',
+    //     'full_name': 'agencia-tecnologia-palmas/boilerplate-manager',
+    //     'html_url': 'https://www.github.com/boilerplate-manager',
+    //     'stargazers_count': 16
+    //   },
+    //   {
+    //     'slug': 3,
+    //     'name': 'coreui-django-boilerplate',
+    //     'full_name': 'ni8mr/coreui-django-boilerplate',
+    //     'html_url': 'https://www.github.com/coreui-django-boilerplate',
+    //     'stargazers_count': 12
+    //   },
+    ]
   },
   methods: {
     getReposJson () {
@@ -27,7 +51,16 @@ var app = new Vue({
         this.items = result.data
       })
     },
-    save
+    saveRepos() {
+      let bodyFormData = new FormData()
+      let config = { headers: {'Content-Type': 'multipart/form-data'} }
+      bodyFormData.append('item', JSON.stringify(this.items))
+      console.log(this.items);
+      axios.post('/repo/add/', bodyFormData, config)
+      .then(response => {
+        this.items = response.data.data
+      })
+    }
   },
   mounted () {
     this.getReposJson()

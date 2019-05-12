@@ -8,7 +8,7 @@ class RepoAdmin(admin.ModelAdmin):
         'slug',
         'name',
         'full_name',
-        'htm_url',
+        'html_url',
         'stargazers_count',
     )
     search_fields = ('name', 'full_name')
