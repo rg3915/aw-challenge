@@ -49,3 +49,9 @@ https://developer.github.com/v3/repos/#get
 
 https://api.github.com/users/rg3915/starred?page=3
 
+## O que foi usado
+
+* Python 3.6.6
+* Django 2.2.1
+* VueJS 2.6.10
+* Bootstrap 4.0
