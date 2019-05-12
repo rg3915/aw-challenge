@@ -1,42 +1,122 @@
 {% extends "base.html" %}
 
+{% block css %}
+
+  <style>
+    body {
+      margin-top: 70px;
+    }
+  </style>
+
+{% endblock css %}
+
 {% block content %}
 
-<div class="row">
-  <div class="col-sm-6">
-    <form action="." method="GET" class="form-inline">
-      <input type="text" id="search" name="search" class="form-control" placeholder="Busca">
-      <input type="submit" class="btn btn-primary" style="margin-left: 10px;" value="OK">
-    </form>
+<div id="app">
+  <div class="row">
+    <p>Do lado esquerdo você pode digitar um username do Github e clicar em listar que ele vai listar os repositórios na tela.</p>
+    <p>Do lado direito ele busca pelos repositórios salvos no banco de dados.</p>
+    <p>O botão 'Salvar todos' salva todos os repositórios no banco de dados.</p>
+    <div class="col-sm-8">
+      <form action="." method="GET" class="form-inline">
+        <label style="margin-right: 10px;">Digite o username</label>
+        <input type="text" id="username" name="username" class="form-control" placeholder="Ex: rg3915" v-model="username">
+        <input class="btn btn-sm btn-primary" style="margin-left: 10px;" value="Listar" @click="getRepos(username)">
+      </form>
+    </div>
+    <div class="col-sm-4">
+      <form action="." method="GET" class="form-inline">
+        <input type="text" id="search" name="search" class="form-control" placeholder="Busca">
+        <input type="submit" class="btn btn-primary" style="margin-left: 10px;" value="OK">
+      </form>
+    </div>
   </div>
-</div>
 
-<div class="page-header">
-  <h2>Lista de Repositórios
-    <span class="pull-right">
-      <a href="{ url 'produto:produto_add' %}">
-        <button type="button" class="btn btn-primary">
-          <span class="fa fa-plus"></span> Adicionar
-        </button>
-      </a>
-    </span>
-  </h2>
+  <div class="page-header">
+    <h2>Lista de Repositórios
+      <span class="pull-right">
+        <a href="{ url 'produto:produto_add' %}">
+          <button type="button" class="btn btn-success">
+            <span class="fa fa-plus"></span> Salvar todos
+          </button>
+        </a>
+      </span>
+    </h2>
 
-  {% if object_list %}
-    
     <table class="table table-striped">
       <thead>
         <tr>
-          <th></th>
+          <th v-for="head in headers" :class="{'text-center': head.title == 'stargazers_count'}">${ head.title }</th>
         </tr>
       </thead>
       <tbody>
+        <tr v-for="item in items">
+          <td>${ item.name }</td>
+          <td>${ item.full_name }</td>
+          <td class="text-center">${ item.stargazers_count }</td>
+        </tr>
       </tbody>
     </table>
-  {% else %}
-    <p class="alert alert-warning">Sem itens na lista.</p>
-  {% endif %}
+
+  </div>
 
 </div>
-
 {% endblock content %}
+
+{% block js %}
+
+<script>
+
+var app = new Vue({
+  el: '#app',
+  delimiters: ['${', '}'],
+  data: {
+    search: '',
+    headers: [
+      {title: 'name'},
+      {title: 'full_name'},
+      {title: 'stargazers_count'},
+    ],
+    username: 'rg3915',
+    items: [
+      {
+        'name': 'components-google',
+        'full_name': 'CollabCodeTech/components-google',
+        'stargazers_count': '3'
+      },
+      {
+        'name': 'boilerplate-manager',
+        'full_name': 'agencia-tecnologia-palmas/boilerplate-manager',
+        'stargazers_count': 16
+      },
+      {
+        'name': 'coreui-django-boilerplate',
+        'full_name': 'ni8mr/coreui-django-boilerplate',
+        'stargazers_count': 12
+      },
+    ]
+  },
+  methods: {
+    getRepos (username) {
+      const url = 'https://api.github.com/users/' + username + '/starred'
+      axios.get(url)
+      .then(result => {
+        this.items = result.data
+      })
+    },
+  },
+  mounted () {
+    // this.getRepos()
+  },
+  computed: {
+    filteredItems () {
+      return this.items.filter((item) => {
+        return item.description.toLowerCase().indexOf(this.search.toLowerCase())>=0;
+      });
+    }
+  }
+});
+
+</script>
+
+{% endblock js %}
