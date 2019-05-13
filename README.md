@@ -37,15 +37,9 @@ python manage.py test
 python manage.py runserver
 ```
 
-## Api
+## App
 
-url
-
-https://developer.github.com/v3/search/#search-repositories
-
-https://developer.github.com/v3/repos/#get
-
-https://api.github.com/users/rg3915/starred?page=3
+https://aw-challenge-regis.herokuapp.com/
 
 ## O que foi usado
 
