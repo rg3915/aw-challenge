@@ -1,6 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 from .models import Repo
 
 
@@ -21,6 +22,7 @@ def repo_json(request):
     return JsonResponse({'data': data})
 
 
+@csrf_exempt
 def repo_add(request):
     if request.method == 'POST':
         Repo.objects.all().delete()
