@@ -57,6 +57,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
+CSRF_COOKIE_SECURE = True
+
 ROOT_URLCONF = 'myproject.urls'
 
 TEMPLATES = [
