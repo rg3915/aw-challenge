@@ -53,7 +53,7 @@ var app = new Vue({
     },
     saveRepos() {
       let bodyFormData = new FormData()
-      let config = { headers: {'Content-Type': 'multipart/form-data'} }
+      // let config = { headers: {'Content-Type': 'multipart/form-data'} }
       bodyFormData.append('item', JSON.stringify(this.items))
       // axios.post('/repo/add/', bodyFormData, config)
       axios.post('/repo/add/', bodyFormData)
