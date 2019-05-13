@@ -45,8 +45,6 @@ https://developer.github.com/v3/search/#search-repositories
 
 https://developer.github.com/v3/repos/#get
 
-
-
 https://api.github.com/users/rg3915/starred?page=3
 
 ## O que foi usado
