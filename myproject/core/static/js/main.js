@@ -55,8 +55,8 @@ var app = new Vue({
       let bodyFormData = new FormData()
       let config = { headers: {'Content-Type': 'multipart/form-data'} }
       bodyFormData.append('item', JSON.stringify(this.items))
-      console.log(this.items);
-      axios.post('/repo/add/', bodyFormData, config)
+      // axios.post('/repo/add/', bodyFormData, config)
+      axios.post('/repo/add/', bodyFormData)
       .then(response => {
         this.items = response.data.data
       })
