@@ -15,21 +15,21 @@ var app = new Vue({
     username: 'rg3915',
     items: [
     // {
-    //     'slug': 1,
+    //     'slug': 10978967,
     //     'name': 'components-google',
     //     'full_name': 'CollabCodeTech/components-google',
     //     'html_url': 'https://www.github.com/components-google',
-    //     'stargazers_count': '3'
+    //     'stargazers_count': 3
     //   },
     //   {
-    //     'slug': 2,
+    //     'slug': 2686769,
     //     'name': 'boilerplate-manager',
     //     'full_name': 'agencia-tecnologia-palmas/boilerplate-manager',
     //     'html_url': 'https://www.github.com/boilerplate-manager',
     //     'stargazers_count': 16
     //   },
     //   {
-    //     'slug': 3,
+    //     'slug': 37907867,
     //     'name': 'coreui-django-boilerplate',
     //     'full_name': 'ni8mr/coreui-django-boilerplate',
     //     'html_url': 'https://www.github.com/coreui-django-boilerplate',
@@ -68,7 +68,7 @@ var app = new Vue({
   computed: {
     filteredItems () {
       return this.items.filter((item) => {
-        return item.description.toLowerCase().indexOf(this.search.toLowerCase())>=0;
+        return item.name.toLowerCase().indexOf(this.search.toLowerCase())>=0;
       });
     }
   }

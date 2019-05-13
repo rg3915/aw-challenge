@@ -15,9 +15,13 @@
 
 <div id="app">
   <div class="row">
-    <p>Do lado esquerdo você pode digitar um username do Github e clicar em listar que ele vai listar os repositórios na tela.</p>
-    <p>Do lado direito ele busca pelos repositórios salvos no banco de dados.</p>
-    <p>O botão 'Salvar todos' salva todos os repositórios no banco de dados.</p>
+    <div class="row">
+      <p>Do lado esquerdo você pode digitar um username do Github e clicar em listar que ele vai listar os repositórios na tela.</p>
+      <p>Do lado direito ele busca pelos repositórios salvos no banco de dados.</p>
+      <p>O botão 'Salvar todos' salva todos os repositórios no banco de dados.</p>
+      <p>Clique no id para ver os detalhes.</p>
+    </div>
+    <div class="clearfix"></div>
     <div class="col-sm-8">
       <form action="." method="GET" class="form-inline">
         <label style="margin-right: 10px;">Digite o username</label>
@@ -27,7 +31,7 @@
     </div>
     <div class="col-sm-4">
       <form action="." method="GET" class="form-inline">
-        <input type="text" id="search" name="search" class="form-control" placeholder="Busca">
+        <input type="text" id="search" name="search" class="form-control" placeholder="Busca" v-model="search">
         <input type="submit" class="btn btn-primary" style="margin-left: 10px;" value="OK">
       </form>
     </div>
@@ -35,8 +39,8 @@
 
   <div class="page-header" style="margin-top: 15px;">
     <h2>Lista de Repositórios
-      <form action="" method="POST">
-        <span class="pull-right">
+      <form action="" method="POST" class="form-inline pull-right">
+        <span>
           <a href="">
             <button type="button" class="btn btn-success" @click.prevent="saveRepos">
               <span class="fa fa-plus"></span> Salvar todos
@@ -49,24 +53,53 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th v-for="head in headers" :class="{'text-center': head.title == 'stargazers_count'}">${ head.title }</th>
+          <th v-for="head in headers" :class="{'text-center': head.title == 'id' || head.title == 'stargazers_count'}">${ head.title }</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in items">
-          <td v-if="item.slug">
-            ${ item.slug }
-          </td>
-          <td v-else>
-            ${ item.id }
-          </td>
-          <td>${ item.name }</td>
-          <td>${ item.full_name }</td>
-          <td>
-            <a :href="item.html_url" target="_blank">${ item.html_url }</a>
-          </td>
-          <td class="text-center">${ item.stargazers_count }</td>
-        </tr>
+        <template v-for="item in filteredItems">
+          <tr>
+            <td v-if="item.slug">
+              <a href="#" data-toggle="modal" data-target="#myModal{{ forloop.counter }}">
+                ${ item.slug }
+              </a>
+            </td>
+            <td v-else>
+              <a href="#" data-toggle="modal" data-target="#myModal{{ forloop.counter }}">
+                ${ item.id }
+              </a>
+            </td>
+            <td>${ item.name }</td>
+            <td>${ item.full_name }</td>
+            <td>
+              <a :href="item.html_url" target="_blank">${ item.html_url }</a>
+            </td>
+            <td class="text-center">${ item.stargazers_count }</td>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">${ item.name }</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><b>name:</b> ${ item.name }</li>
+                      <li class="list-group-item"><b>full_name:</b> ${ item.full_name }</li>
+                      <li class="list-group-item"><b>html_url:</b> ${ item.html_url }</li>
+                      <li class="list-group-item"><b>stargazers_count:</b> ${ item.stargazers_count }</li>
+                    </ul>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </tr>
+        </template>
       </tbody>
     </table>
 
